@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  reverse-proxy:
+    # The official v2 Traefik docker image
+    image: traefik:v2.9
+    # Enables the web UI and tells Traefik to listen to docker
+    command: --api.insecure=true --providers.docker
+    labels:
+      - traefik.entrypoints.web.address=:1337
+      - traefik.http.routers.user-service.rule=Path(`/users`)
+
+      - traefik.http.routers.auth-service.service=auth-service
+      - traefik.http.services.auth-service.loadBalancer.servers.url=localhost:4000
+      - traefik.http.services.auth-middleware.loadBalancer.servers.url=localhost:4000
+    ports:
+      # The HTTP port
+      - '80:80'
+      # The Web UI (enabled by --api.insecure=true)
+      - '8080:8080'
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
