@@ -19,8 +19,10 @@ func NewHandler() *handler {
 func RegisterRoutes(e *echo.Echo) {
 	h := NewHandler()
 
-	e.POST("/login", h.login)
-	e.POST("/register", h.register)
-	e.GET("/profile", h.profile)
-	e.GET("/add_header", h.addHeader)
+	group := e.Group("/auth")
+
+	group.POST("/login", h.login)
+	group.POST("/register", h.register)
+	group.GET("/profile", h.profile)
+	group.GET("/add_header", h.addHeader)
 }

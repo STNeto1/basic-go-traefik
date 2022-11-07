@@ -28,7 +28,7 @@ func main() {
 		ContextKey:  "user",
 		Claims:      jwt.MapClaims{},
 		Skipper: func(c echo.Context) bool {
-			publicEndpoints := []string{"/login", "/register"}
+			publicEndpoints := []string{"/login", "/register", "/auth/register", "/auth/login"}
 			return slices.Contains(publicEndpoints, c.Path())
 		},
 		ErrorHandler: func(err error) error {

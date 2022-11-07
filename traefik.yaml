@@ -1,0 +1,13 @@
+# static configuration
+entryPoints:
+  web:
+    address: ":1337"
+
+api:
+  insecure: true
+  dashboard: true
+
+providers:
+  file:
+    filename: all.yaml
+    watch: true

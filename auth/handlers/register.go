@@ -2,7 +2,6 @@ package handlers
 
 import (
 	lib "__lib"
-	"log"
 
 	"github.com/labstack/echo/v4"
 )
@@ -34,7 +33,6 @@ func (h handler) register(c echo.Context) error {
 
 	token, err := lib.GenerateJwtToken(user.ID, "some_secret")
 	if err != nil {
-		log.Println(err)
 		return c.JSON(500, map[string]string{
 			"message": "Internal Server Error",
 		})

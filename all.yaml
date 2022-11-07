@@ -1,0 +1,28 @@
+http:
+  routers:
+    authRouter:
+      rule: "PathPrefix(`/auth/{cat:[a-z]+}`)"
+      service: auth
+    greetingRouter:
+      rule: "PathPrefix(`/greeting`)"
+      service: greeting
+      middlewares:
+        - authMiddleware
+  services:
+    auth:
+      loadBalancer:
+        servers:
+        - url: 'http://localhost:4000'
+    greeting:
+      loadBalancer:
+        servers:
+        - url: 'http://localhost:5000'
+  middlewares:
+    authMiddleware:
+      forwardAuth:
+        address: http://localhost:4000/auth/add_header
+        trustForwardHeader: true
+        authResponseHeaders:
+          - X-User-ID
+          - X-User-Name
+          - X-User-Email
